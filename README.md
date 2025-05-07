@@ -1,6 +1,6 @@
 # POC_Collecter_Bot
 
-A powerful automated system for discovering, storing, and distributing CVE Proof-of-Concept (POC) exploits — fully integrated with a Telegram bot for user interaction and real-time alerts.
+A powerful automated system for discovering, storing, and distributing CVE Proof-of-Concept (POC) exploits | fully integrated with a Telegram bot for user interaction and real-time alerts.
 
 ## Components
 
@@ -11,7 +11,7 @@ Fetches POCs for CVEs from GitHub and other online sources. These are downloaded
 A local database that:
 - Stores POCs by CVE ID.
 - Maintains conditions like maximum number of POCs per CVE (e.g. 10), file size limits, and date filtering.
-- Preserves POCs even if the source is deleted — ensuring long-term access.
+- Preserves POCs even if the source is deleted | ensuring long-term access.
 
 ### 3. Telegram Bot (Most Important Component)
 A full-featured interface for users to interact with the POC database:
