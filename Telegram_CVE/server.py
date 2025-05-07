@@ -9,6 +9,7 @@ import time
 
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
+NEWSLETTER_FILE = os.path.join(script_dir, "Newsletter_Sub.json")
 Storage_Path = script_dir+"/StorageFiles"
 
 
@@ -44,7 +45,50 @@ def handle_start(message):
     ))
 
 
+def load_subscribers():
+    if not os.path.exists(NEWSLETTER_FILE):
+        return []
+    with open(NEWSLETTER_FILE, 'r') as f:
+        return json.load(f)
 
+def save_subscribers(data):
+    with open(NEWSLETTER_FILE, 'w') as f:
+        json.dump(data, f, indent=4)
+
+@bot.message_handler(commands=['subscribe', 'Subscribe'])
+def subscribe_user(message):
+    log_message(message)
+    if is_user_allowed(message.from_user):
+        subscribers = load_subscribers()
+        chat_id = str(message.chat.id)
+        username = message.from_user.username or "unknown"
+
+        if any(sub['chat_id'] == chat_id for sub in subscribers):
+            bot.reply_to(message, "You're already subscribed to the newsletter.")
+            return
+
+        next_id = max((sub['id'] for sub in subscribers), default=0) + 1
+        subscribers.append({
+            "id": next_id,
+            "name": username,
+            "chat_id": chat_id
+        })
+        save_subscribers(subscribers)
+        bot.reply_to(message, "You've been subscribed to the newsletter.")
+
+@bot.message_handler(commands=['unsubscribe', 'Unsubscribe'])
+def unsubscribe_user(message):
+    log_message(message)
+    if is_user_allowed(message.from_user):
+        chat_id = str(message.chat.id)
+        subscribers = load_subscribers()
+        new_subscribers = [sub for sub in subscribers if sub['chat_id'] != chat_id]
+
+        if len(new_subscribers) == len(subscribers):
+            bot.reply_to(message, "You're not subscribed.")
+        else:
+            save_subscribers(new_subscribers)
+            bot.reply_to(message, "You've been unsubscribed from the newsletter.")
 
 
 # /add_cve command
