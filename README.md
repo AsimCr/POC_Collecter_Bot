@@ -31,7 +31,7 @@ A full-featured interface for users to interact with the POC database:
 
 1. Clone the repository:
   ```
-  git clone https://github.com/your-username/POC_Collecter_Bot.git
+  git clone https://github.com/AsimCr/POC_Collecter_Bot.git
   cd POC_Collecter_Bot
   ```
 2. Replace all API key placeholders in the Python files with your actual Telegram Bot API key.
